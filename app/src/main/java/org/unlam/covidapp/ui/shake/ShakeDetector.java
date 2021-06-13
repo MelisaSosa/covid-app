@@ -8,6 +8,7 @@ import android.hardware.SensorManager;
 public class ShakeDetector implements SensorEventListener {
 
     private static final float SHAKE_THRESHOLD_GRAVITY = 3F;
+    private static final int SHAKE_SLOP_TIME_MS = 500;
     private static final int SHAKE_COUNT_RESET_TIME_MS = 3000;
 
     private OnShakeListener shakeListener;
@@ -39,7 +40,10 @@ public class ShakeDetector implements SensorEventListener {
             if (gForce > SHAKE_THRESHOLD_GRAVITY) {
                 final long now = System.currentTimeMillis();
 
-                // reset the shake count after 3 seconds of no shakes
+                if (shakeTimestamp + SHAKE_SLOP_TIME_MS > now) {
+                    return;
+                }
+
                 if (shakeTimestamp + SHAKE_COUNT_RESET_TIME_MS < now) {
                     shakeCount = 0;
                 }
