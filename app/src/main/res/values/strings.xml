@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Covid App</string>
-    <!-- Strings related to login -->
+    <string name="title_activity_login">Sign in</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
@@ -11,6 +11,6 @@
     <string name="login_failed">"Login failed"</string>
     <string name="shake_text">Sacude el celular para encontrar los hospitales más cercanos...</string>
     <string name="mostrar_hospitales">Mostrar hospitales</string>
-    <string name="clinicas">Clinicas</string>
+    <string name="clinicas">Clínicas</string>
     <string name="hospitales">Hospitales</string>
 </resources>
