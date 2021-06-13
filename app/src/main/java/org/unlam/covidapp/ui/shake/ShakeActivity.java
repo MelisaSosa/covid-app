@@ -10,11 +10,10 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.text.TextUtils;
-import android.widget.EditText;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +21,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import org.unlam.covidapp.R;
+import org.unlam.covidapp.ui.hospitales.HospitalesActivity;
+
+import java.util.ArrayList;
 
 public class ShakeActivity extends AppCompatActivity {
 
@@ -30,6 +32,9 @@ public class ShakeActivity extends AppCompatActivity {
     private ShakeDetector shakeDetector;
 
     public TextView locationText;
+    public Button mostrarHospitalesButton;
+    public double longitud;
+    public double latitud;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,6 +42,21 @@ public class ShakeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_shake);
 
         locationText = findViewById(R.id.locationText);
+        mostrarHospitalesButton = findViewById(R.id.hospitales);
+
+        mostrarHospitalesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyLocationListener locationListener = new MyLocationListener(ShakeActivity.this);
+                ArrayList<String> hospitalesCercanos = locationListener.getLugarCercano("hospital", latitud, longitud);
+                ArrayList<String> clinicasCercanas = locationListener.getLugarCercano("clinica", latitud, longitud);
+
+                Intent myIntent = new Intent(ShakeActivity.this, HospitalesActivity.class);
+                myIntent.putStringArrayListExtra("hospitalesCercanos", hospitalesCercanos);
+                myIntent.putStringArrayListExtra("clinicasCercanas", clinicasCercanas);
+                ShakeActivity.this.startActivity(myIntent);
+            }
+        });
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);

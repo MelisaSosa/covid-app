@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Covid App</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -10,4 +10,7 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="shake_text">Sacude el celular para encontrar los hospitales más cercanos...</string>
+    <string name="mostrar_hospitales">Mostrar hospitales</string>
+    <string name="clinicas">Clinicas</string>
+    <string name="hospitales">Hospitales</string>
 </resources>
