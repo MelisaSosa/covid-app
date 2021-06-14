@@ -10,8 +10,8 @@ import android.widget.EditText;
 
 import org.unlam.covidapp.R;
 import org.unlam.covidapp.Services.ServiceRegistro;
-import org.unlam.covidapp.dto.SoaRequest;
-import org.unlam.covidapp.dto.SoaResponse;
+import org.unlam.covidapp.dto.SoaRegisterRequest;
+import org.unlam.covidapp.dto.SoaRegisterResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,7 +46,7 @@ public class RegistroActivity extends AppCompatActivity {
 
         Button button = findViewById(R.id.send_request);
         button.setOnClickListener( v -> {
-            SoaRequest request = new SoaRequest();
+            SoaRegisterRequest request = new SoaRegisterRequest();
             request.setEnv("TEST");
             request.setName(editName.getText().toString());
             request.setLastname(editLastName.getText().toString());
@@ -62,10 +62,10 @@ public class RegistroActivity extends AppCompatActivity {
                     .build();
             ServiceRegistro serviceRegistro = retrofit.create(ServiceRegistro.class);
 
-            Call<SoaResponse> call = serviceRegistro.register(request);
-            call.enqueue(new Callback<SoaResponse>() {
+            Call<SoaRegisterResponse> call = serviceRegistro.register(request);
+            call.enqueue(new Callback<SoaRegisterResponse>() {
                 @Override
-                public void onResponse(Call<SoaResponse> call, Response<SoaResponse> response) {
+                public void onResponse(Call<SoaRegisterResponse> call, Response<SoaRegisterResponse> response) {
 
                     if (response.isSuccessful()) {
                         Intent intent = new Intent(RegistroActivity.this, LoginActivity.class);
@@ -82,7 +82,7 @@ public class RegistroActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<SoaResponse> call, Throwable t) {
+                public void onFailure(Call<SoaRegisterResponse> call, Throwable t) {
                     Log.e(TAG, t.getMessage());
                 }
             });

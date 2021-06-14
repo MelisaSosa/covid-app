@@ -11,8 +11,8 @@ import android.widget.EditText;
 
 import org.unlam.covidapp.R;
 import org.unlam.covidapp.Services.ServiceLogin;
-import org.unlam.covidapp.dto.SoaRequest;
-import org.unlam.covidapp.dto.SoaResponse;
+import org.unlam.covidapp.dto.SoaRegisterRequest;
+import org.unlam.covidapp.dto.SoaRegisterResponse;
 import org.unlam.covidapp.ui.shake.ShakeActivity;
 
 import retrofit2.Call;
@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Button button = findViewById(R.id.btnIniciarSesion);
         button.setOnClickListener( v -> {
-            SoaRequest request = new SoaRequest();
+            SoaRegisterRequest request = new SoaRegisterRequest();
             request.setEmail(editEmail.getText().toString());
             request.setPassword(editPass.getText().toString());
 
@@ -45,10 +45,10 @@ public class LoginActivity extends AppCompatActivity {
                     .baseUrl("http://so-unlam.net.ar/api/")
                     .build();
             ServiceLogin serviceLogin = retrofit.create(ServiceLogin.class);
-            Call<SoaResponse> call = serviceLogin.login(request);
-            call.enqueue(new Callback<SoaResponse>() {
+            Call<SoaRegisterResponse> call = serviceLogin.login(request);
+            call.enqueue(new Callback<SoaRegisterResponse>() {
                 @Override
-                public void onResponse(Call<SoaResponse> call, Response<SoaResponse> response) {
+                public void onResponse(Call<SoaRegisterResponse> call, Response<SoaRegisterResponse> response) {
 
                     if (response.isSuccessful()) {
                         //PANTALLA DE APLICACION
@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<SoaResponse> call, Throwable t) {
+                public void onFailure(Call<SoaRegisterResponse> call, Throwable t) {
                     Log.e(TAG, t.getMessage());
                 }
             });

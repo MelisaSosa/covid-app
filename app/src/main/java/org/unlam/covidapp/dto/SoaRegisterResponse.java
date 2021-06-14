@@ -1,6 +1,6 @@
 package org.unlam.covidapp.dto;
 
-public class SoaResponse {
+public class SoaRegisterResponse {
     private Boolean successs;
     private String env;
     private String token;

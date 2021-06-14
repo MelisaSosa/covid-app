@@ -2,7 +2,7 @@ package org.unlam.covidapp.dto;
 
 import com.google.gson.annotations.SerializedName;
 
-public class SoaRequest {
+public class SoaRegisterRequest {
     @SerializedName("env")
     private String env;
     @SerializedName("name")
