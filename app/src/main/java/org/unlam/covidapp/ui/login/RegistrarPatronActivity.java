@@ -18,7 +18,7 @@ import java.util.List;
 
 import io.paperdb.Paper;
 
-public class RegistrarPatron extends AppCompatActivity {
+public class RegistrarPatronActivity extends AppCompatActivity {
 
     String save_pattern_key = "pattern_code";
     String final_pattern = "";
@@ -49,12 +49,12 @@ public class RegistrarPatron extends AppCompatActivity {
                 public void onComplete(List<PatternLockView.Dot> pattern) {
                     final_pattern = PatternLockUtils.patternToString(mPatternLockView,pattern);
                     if(final_pattern.equals(save_pattern)){
-                        Toast.makeText(RegistrarPatron.this, "Password Correct!", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(RegistrarPatron.this, Login.class);
+                        Toast.makeText(RegistrarPatronActivity.this, "Password Correct!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(RegistrarPatronActivity.this, LoginActivity.class);
                         startActivity(intent);
 
 
-                    }else{ Toast.makeText(RegistrarPatron.this, "Password Incorrecta!", Toast.LENGTH_SHORT).show();}
+                    }else{ Toast.makeText(RegistrarPatronActivity.this, "Password Incorrecta!", Toast.LENGTH_SHORT).show();}
 
 
                 }
@@ -101,8 +101,8 @@ public class RegistrarPatron extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Paper.book().write(save_pattern_key, final_pattern);
-                    Toast.makeText(RegistrarPatron.this, "Save pattern okay!", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(RegistrarPatron.this, LoginPatron.class);
+                    Toast.makeText(RegistrarPatronActivity.this, "Save pattern okay!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(RegistrarPatronActivity.this, LoginPatronActivity.class);
                     startActivity(intent);
                 }
             });

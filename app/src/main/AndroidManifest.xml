@@ -14,10 +14,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="org.unlam.covidapp.ui.login.Registro"/>
-        <activity android:name="org.unlam.covidapp.ui.login.LoginPatron" />
-        <activity android:name="org.unlam.covidapp.ui.login.Login" />
-        <activity android:name="org.unlam.covidapp.ui.login.RegistrarPatron">
+        <activity android:name="org.unlam.covidapp.ui.login.RegistroActivity"/>
+        <activity android:name="org.unlam.covidapp.ui.login.LoginPatronActivity" />
+        <activity android:name="org.unlam.covidapp.ui.login.LoginActivity" />
+        <activity android:name="org.unlam.covidapp.ui.login.RegistrarPatronActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

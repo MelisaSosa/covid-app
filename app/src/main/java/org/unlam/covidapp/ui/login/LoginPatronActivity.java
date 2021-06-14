@@ -16,7 +16,7 @@ import java.util.List;
 
 import io.paperdb.Paper;
 
-public class LoginPatron extends AppCompatActivity {
+public class LoginPatronActivity extends AppCompatActivity {
 
     String save_pattern_key = "pattern_code";
     PatternLockView mPatternLockView;
@@ -50,12 +50,12 @@ public class LoginPatron extends AppCompatActivity {
                 public void onComplete(List<PatternLockView.Dot> pattern) {
                     final_pattern = PatternLockUtils.patternToString(mPatternLockView,pattern);
                     if(final_pattern.equals(save_pattern)){
-                        Toast.makeText(LoginPatron.this, "Password Correct!", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(LoginPatron.this, Login.class);
+                        Toast.makeText(LoginPatronActivity.this, "Password Correct!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(LoginPatronActivity.this, LoginActivity.class);
                         startActivity(intent);
 
 
-                    }else{ Toast.makeText(LoginPatron.this, "Password Incorrecta!", Toast.LENGTH_SHORT).show();}
+                    }else{ Toast.makeText(LoginPatronActivity.this, "Password Incorrecta!", Toast.LENGTH_SHORT).show();}
 
 
                 }
