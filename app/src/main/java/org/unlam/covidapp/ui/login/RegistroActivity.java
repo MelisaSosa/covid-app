@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.unlam.covidapp.R;
 import org.unlam.covidapp.Services.ServiceRegistro;
@@ -48,13 +49,21 @@ public class RegistroActivity extends AppCompatActivity {
         button.setOnClickListener( v -> {
             SoaRegisterRequest request = new SoaRegisterRequest();
             request.setEnv("TEST");
-            request.setName(editName.getText().toString());
-            request.setLastname(editLastName.getText().toString());
-            request.setDni(Long.parseLong(editDNI.getText().toString()));
-            request.setEmail(editEmail.getText().toString());
-            request.setPassword(editPass.getText().toString());
-            request.setCommission(Long.parseLong(editComission.getText().toString()));
-            request.setGroup(Long.parseLong(editGroup.getText().toString()));
+            try {
+
+                request.setName(editName.getText().toString());
+                request.setLastname(editLastName.getText().toString());
+                request.setDni(Long.parseLong(editDNI.getText().toString()));
+                request.setEmail(editEmail.getText().toString());
+                request.setPassword(editPass.getText().toString());
+                request.setCommission(Long.parseLong(editComission.getText().toString()));
+                request.setGroup(Long.parseLong(editGroup.getText().toString()));
+            }
+            catch (Exception e)
+            {
+                Toast.makeText(RegistroActivity.this, "Ingrese los datos correctamente", Toast.LENGTH_SHORT).show();
+            }
+
 
             Retrofit retrofit = new Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create())
@@ -73,10 +82,12 @@ public class RegistroActivity extends AppCompatActivity {
                         //TextView textEnv = findViewById(R.id.text_env);
                       //  TextView textToken = findViewById(R.id.text_token);
                       //  TextView textTokenRefresh = findViewById(R.id.text_token_refresh);
+                        Toast.makeText(RegistroActivity.this, "Te has registrado correctamente", Toast.LENGTH_SHORT).show();
                         Log.e(TAG, "TODO OK");
+
                     } else {
                         Log.e(TAG, "TODO MAL");
-                        //Log.e(TAG, response.toString());
+                        Toast.makeText(RegistroActivity.this, "Ups! Revisa los datos nuevamente", Toast.LENGTH_SHORT).show();
                     }
                     Log.e(TAG, "Mensaje finalizado");
                 }

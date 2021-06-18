@@ -50,12 +50,12 @@ public class LoginPatronActivity extends AppCompatActivity {
                 public void onComplete(List<PatternLockView.Dot> pattern) {
                     final_pattern = PatternLockUtils.patternToString(mPatternLockView,pattern);
                     if(final_pattern.equals(save_pattern)){
-                        Toast.makeText(LoginPatronActivity.this, "Password Correct!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginPatronActivity.this, "Patrón correcto!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(LoginPatronActivity.this, LoginActivity.class);
                         startActivity(intent);
 
 
-                    }else{ Toast.makeText(LoginPatronActivity.this, "Password Incorrecta!", Toast.LENGTH_SHORT).show();}
+                    }else{ Toast.makeText(LoginPatronActivity.this, "Patrón incorrecto!", Toast.LENGTH_SHORT).show();}
 
 
                 }

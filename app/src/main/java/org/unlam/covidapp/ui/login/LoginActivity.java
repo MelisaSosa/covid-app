@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.unlam.covidapp.R;
 import org.unlam.covidapp.Services.ServiceLogin;
@@ -55,10 +56,12 @@ public class LoginActivity extends AppCompatActivity {
                        // TextView textToken = findViewById(R.id.text_token);
                        // TextView textTokenRefresh = findViewById(R.id.text_token_refresh);
                         //Log.e(TAG, "LoginActivity Correcto");
+                        Toast.makeText(LoginActivity.this, "Sesión iniciada correctamente", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(LoginActivity.this, ShakeActivity.class);
                         startActivity(intent);
                         Log.e(TAG, "TODO OK");
                     } else {
+                        Toast.makeText(LoginActivity.this, "Los datos ingresados no son correctos", Toast.LENGTH_SHORT).show();
                         Log.e(TAG, "TODO MAL");
 
                     }
