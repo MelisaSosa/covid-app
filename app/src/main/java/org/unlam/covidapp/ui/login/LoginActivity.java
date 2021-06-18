@@ -2,7 +2,10 @@ package org.unlam.covidapp.ui.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -40,39 +43,46 @@ public class LoginActivity extends AppCompatActivity {
             SoaRegisterRequest request = new SoaRegisterRequest();
             request.setEmail(editEmail.getText().toString());
             request.setPassword(editPass.getText().toString());
+            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
-            Retrofit retrofit = new Retrofit.Builder()
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .baseUrl("http://so-unlam.net.ar/api/")
-                    .build();
-            ServiceLogin serviceLogin = retrofit.create(ServiceLogin.class);
-            Call<SoaRegisterResponse> call = serviceLogin.login(request);
-            call.enqueue(new Callback<SoaRegisterResponse>() {
-                @Override
-                public void onResponse(Call<SoaRegisterResponse> call, Response<SoaRegisterResponse> response) {
+            if (networkInfo != null && networkInfo.isConnected()) {
+                Retrofit retrofit = new Retrofit.Builder()
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .baseUrl("http://so-unlam.net.ar/api/")
+                        .build();
+                ServiceLogin serviceLogin = retrofit.create(ServiceLogin.class);
+                Call<SoaRegisterResponse> call = serviceLogin.login(request);
+                call.enqueue(new Callback<SoaRegisterResponse>() {
+                    @Override
+                    public void onResponse(Call<SoaRegisterResponse> call, Response<SoaRegisterResponse> response) {
 
-                    if (response.isSuccessful()) {
-                        //PANTALLA DE APLICACION
-                       // TextView textToken = findViewById(R.id.text_token);
-                       // TextView textTokenRefresh = findViewById(R.id.text_token_refresh);
-                        //Log.e(TAG, "LoginActivity Correcto");
-                        Toast.makeText(LoginActivity.this, "Sesión iniciada correctamente", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(LoginActivity.this, ShakeActivity.class);
-                        startActivity(intent);
-                        Log.e(TAG, "TODO OK");
-                    } else {
-                        Toast.makeText(LoginActivity.this, "Los datos ingresados no son correctos", Toast.LENGTH_SHORT).show();
-                        Log.e(TAG, "TODO MAL");
+                        if (response.isSuccessful()) {
+                            //PANTALLA DE APLICACION
+                            // TextView textToken = findViewById(R.id.text_token);
+                            // TextView textTokenRefresh = findViewById(R.id.text_token_refresh);
+                            //Log.e(TAG, "LoginActivity Correcto");
+                            Toast.makeText(LoginActivity.this, "Sesión iniciada correctamente", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(LoginActivity.this, ShakeActivity.class);
+                            startActivity(intent);
+                            Log.e(TAG, "TODO OK");
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Los datos ingresados no son correctos", Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, "TODO MAL");
 
+                        }
+                        Log.e(TAG, "Mensaje finalizado");
                     }
-                    Log.e(TAG, "Mensaje finalizado");
-                }
 
-                @Override
-                public void onFailure(Call<SoaRegisterResponse> call, Throwable t) {
-                    Log.e(TAG, t.getMessage());
-                }
-            });
+                    @Override
+                    public void onFailure(Call<SoaRegisterResponse> call, Throwable t) {
+                        Log.e(TAG, t.getMessage());
+                    }
+                });
+
+            } else {
+                Toast.makeText(LoginActivity.this, "No hay conexión", Toast.LENGTH_SHORT).show();
+            }
 
         });
         Button btnSetup = (Button)findViewById(R.id.btnRegistrarse);

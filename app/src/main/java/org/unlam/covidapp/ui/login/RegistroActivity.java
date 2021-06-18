@@ -2,7 +2,11 @@ package org.unlam.covidapp.ui.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -63,40 +67,48 @@ public class RegistroActivity extends AppCompatActivity {
             {
                 Toast.makeText(RegistroActivity.this, "Ingrese los datos correctamente", Toast.LENGTH_SHORT).show();
             }
+            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
+            if (networkInfo != null && networkInfo.isConnected()) {
+                Retrofit retrofit = new Retrofit.Builder()
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .baseUrl("http://so-unlam.net.ar/api/")
+                        .build();
+                ServiceRegistro serviceRegistro = retrofit.create(ServiceRegistro.class);
 
-            Retrofit retrofit = new Retrofit.Builder()
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .baseUrl("http://so-unlam.net.ar/api/")
-                    .build();
-            ServiceRegistro serviceRegistro = retrofit.create(ServiceRegistro.class);
+                Call<SoaRegisterResponse> call = serviceRegistro.register(request);
+                call.enqueue(new Callback<SoaRegisterResponse>() {
+                    @Override
+                    public void onResponse(Call<SoaRegisterResponse> call, Response<SoaRegisterResponse> response) {
 
-            Call<SoaRegisterResponse> call = serviceRegistro.register(request);
-            call.enqueue(new Callback<SoaRegisterResponse>() {
-                @Override
-                public void onResponse(Call<SoaRegisterResponse> call, Response<SoaRegisterResponse> response) {
+                        if (response.isSuccessful()) {
+                            Intent intent = new Intent(RegistroActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            //TextView textEnv = findViewById(R.id.text_env);
+                            //  TextView textToken = findViewById(R.id.text_token);
+                            //  TextView textTokenRefresh = findViewById(R.id.text_token_refresh);
+                            Toast.makeText(RegistroActivity.this, "Te has registrado correctamente", Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, "TODO OK");
 
-                    if (response.isSuccessful()) {
-                        Intent intent = new Intent(RegistroActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                        //TextView textEnv = findViewById(R.id.text_env);
-                      //  TextView textToken = findViewById(R.id.text_token);
-                      //  TextView textTokenRefresh = findViewById(R.id.text_token_refresh);
-                        Toast.makeText(RegistroActivity.this, "Te has registrado correctamente", Toast.LENGTH_SHORT).show();
-                        Log.e(TAG, "TODO OK");
-
-                    } else {
-                        Log.e(TAG, "TODO MAL");
-                        Toast.makeText(RegistroActivity.this, "Ups! Revisa los datos nuevamente", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.e(TAG, "TODO MAL");
+                            Toast.makeText(RegistroActivity.this, "Ups! Revisa los datos nuevamente", Toast.LENGTH_SHORT).show();
+                        }
+                        Log.e(TAG, "Mensaje finalizado");
                     }
-                    Log.e(TAG, "Mensaje finalizado");
-                }
 
-                @Override
-                public void onFailure(Call<SoaRegisterResponse> call, Throwable t) {
-                    Log.e(TAG, t.getMessage());
-                }
-            });
+                    @Override
+                    public void onFailure(Call<SoaRegisterResponse> call, Throwable t) {
+                        Log.e(TAG, t.getMessage());
+                    }
+                });
+
+            } else {
+                Toast.makeText(RegistroActivity.this, "No hay conexión", Toast.LENGTH_SHORT).show();
+            }
+
+
 
         });
 
