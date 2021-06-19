@@ -86,8 +86,8 @@ public class RegistroActivity extends AppCompatActivity {
                             Intent intent = new Intent(RegistroActivity.this, LoginActivity.class);
                             startActivity(intent);
                             //TextView textEnv = findViewById(R.id.text_env);
-                            //  TextView textToken = findViewById(R.id.text_token);
-                            //  TextView textTokenRefresh = findViewById(R.id.text_token_refresh);
+                            //                            //  TextView textToken = findViewById(R.id.text_token);
+                            //                            //  TextView textTokenRefresh = findViewById(R.id.text_token_refresh);
                             Toast.makeText(RegistroActivity.this, "Te has registrado correctamente", Toast.LENGTH_SHORT).show();
                             Log.e(TAG, "TODO OK");
 

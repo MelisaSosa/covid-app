@@ -14,7 +14,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import org.unlam.covidapp.R;
+import org.unlam.covidapp.Services.ServiceEvent;
 import org.unlam.covidapp.Services.ServiceLogin;
+import org.unlam.covidapp.dto.SoaEventRequest;
+import org.unlam.covidapp.dto.SoaEventResponse;
 import org.unlam.covidapp.dto.SoaRegisterRequest;
 import org.unlam.covidapp.dto.SoaRegisterResponse;
 import org.unlam.covidapp.ui.shake.ShakeActivity;
@@ -30,6 +33,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText editEmail;
     private EditText editPass;
+    private String token;
+    private String tokenRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,13 @@ public class LoginActivity extends AppCompatActivity {
             SoaRegisterRequest request = new SoaRegisterRequest();
             request.setEmail(editEmail.getText().toString());
             request.setPassword(editPass.getText().toString());
+
+            SoaEventRequest requestEvent = new SoaEventRequest();
+            requestEvent.setEnv("TEST");
+            requestEvent.setDescription("Se ha iniciado sesión en la aplicación");
+            requestEvent.setTypeEvents("Login");
+
+
             ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
@@ -51,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
                         .addConverterFactory(GsonConverterFactory.create())
                         .baseUrl("http://so-unlam.net.ar/api/")
                         .build();
+
                 ServiceLogin serviceLogin = retrofit.create(ServiceLogin.class);
                 Call<SoaRegisterResponse> call = serviceLogin.login(request);
                 call.enqueue(new Callback<SoaRegisterResponse>() {
@@ -62,6 +75,31 @@ public class LoginActivity extends AppCompatActivity {
                             // TextView textToken = findViewById(R.id.text_token);
                             // TextView textTokenRefresh = findViewById(R.id.text_token_refresh);
                             //Log.e(TAG, "LoginActivity Correcto");
+
+                            token = response.body().getToken();
+                            tokenRefresh=response.body().getToken_refresh();
+                            ServiceEvent serviceEvent = retrofit.create(ServiceEvent.class);
+
+                            Call<SoaEventResponse> call2 = serviceEvent.registrarEvento(token,requestEvent);
+                            call2.enqueue(new Callback<SoaEventResponse>() {
+                                @Override
+                                public void onResponse(Call<SoaEventResponse> call, Response<SoaEventResponse> response) {
+                                    if (response.isSuccessful()) {
+                                        Log.e(TAG, "EVENTO REGISTRADO");
+
+                                    } else {
+                                        Log.e(TAG, "EVENTO NO REGISTRADO");
+                                    }
+                                    Log.e(TAG, "Mensaje finalizado");
+                                }
+
+                                @Override
+                                public void onFailure(Call<SoaEventResponse> call, Throwable t) {
+
+                                }
+                            });
+
+
                             Toast.makeText(LoginActivity.this, "Sesión iniciada correctamente", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(LoginActivity.this, ShakeActivity.class);
                             startActivity(intent);

@@ -10,4 +10,5 @@ import retrofit2.http.POST;
 public interface ServiceRegistro {
     @POST("api/register")
     Call<SoaRegisterResponse> register(@Body SoaRegisterRequest request);
+
 }
