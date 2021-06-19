@@ -15,6 +15,7 @@
         android:textAlignment="center"
         android:text="@string/hospitales" />
 
+
     <ListView
         android:id="@+id/hospitalesList"
         android:textColor="#ffffff"
@@ -24,9 +25,12 @@
     <TextView
         android:id="@+id/clinicas"
         android:textColor="#ffffff"
+        android:layout_marginTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:textSize="36sp"
+        android:textAlignment="center"
         android:text="@string/clinicas" />
 
     <ListView

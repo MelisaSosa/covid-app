@@ -1,6 +1,7 @@
 package org.unlam.covidapp.ui.hospitales;
 
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import androidx.annotation.Nullable;
@@ -25,11 +26,11 @@ public class HospitalesActivity extends AppCompatActivity {
         final ListView listviewC = findViewById(R.id.clinicasList);
 
         StableArrayAdapter adapter = new StableArrayAdapter(this,
-                android.R.layout.simple_list_item_1, hospitalesCercanos);
+                R.layout.simple_list, hospitalesCercanos);
         listviewH.setAdapter(adapter);
 
         adapter = new StableArrayAdapter(this,
-                android.R.layout.simple_list_item_1, clinicasCercanas);
+                R.layout.simple_list, clinicasCercanas);
         listviewC.setAdapter(adapter);
     }
 
