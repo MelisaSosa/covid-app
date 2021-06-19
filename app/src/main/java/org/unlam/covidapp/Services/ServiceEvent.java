@@ -11,5 +11,5 @@ import retrofit2.http.Header;
 
 public interface ServiceEvent {
     @POST("api/event")
-    Call<SoaEventResponse> registrarEvento(@Header("token") String token , @Body SoaEventRequest request);
+    Call<SoaEventResponse> registrarEvento(@Header("Authorization") String token , @Body SoaEventRequest request);
 }
