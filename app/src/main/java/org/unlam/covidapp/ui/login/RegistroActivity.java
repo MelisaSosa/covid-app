@@ -85,9 +85,6 @@ public class RegistroActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             Intent intent = new Intent(RegistroActivity.this, LoginActivity.class);
                             startActivity(intent);
-                            //TextView textEnv = findViewById(R.id.text_env);
-                            //                            //  TextView textToken = findViewById(R.id.text_token);
-                            //                            //  TextView textTokenRefresh = findViewById(R.id.text_token_refresh);
                             Toast.makeText(RegistroActivity.this, "Te has registrado correctamente", Toast.LENGTH_SHORT).show();
                             Log.e(TAG, "TODO OK");
 
@@ -95,7 +92,6 @@ public class RegistroActivity extends AppCompatActivity {
                             Log.e(TAG, "TODO MAL");
                             Toast.makeText(RegistroActivity.this, "Ups! Revisa los datos nuevamente", Toast.LENGTH_SHORT).show();
                         }
-                        Log.e(TAG, "Mensaje finalizado");
                     }
 
                     @Override

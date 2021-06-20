@@ -10,36 +10,65 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import org.unlam.covidapp.R;
+import org.unlam.covidapp.Services.ServiceEvent;
+import org.unlam.covidapp.Services.ServiceLogin;
+import org.unlam.covidapp.Services.ServiceRefresh;
+import org.unlam.covidapp.dto.SoaEventRequest;
+import org.unlam.covidapp.dto.SoaEventResponse;
+import org.unlam.covidapp.dto.SoaRefreshResponse;
+import org.unlam.covidapp.dto.SoaRegisterRequest;
+import org.unlam.covidapp.dto.SoaRegisterResponse;
 import org.unlam.covidapp.ui.hospitales.HospitalesActivity;
+import org.unlam.covidapp.ui.login.LoginActivity;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class ShakeActivity extends AppCompatActivity {
+    private static String TAG = ShakeActivity.class.getName();
 
     private SensorManager sensorManager;
     private Sensor accelerometer;
     private ShakeDetector shakeDetector;
-
+    private String token;
+    private String token_refresh;
     public TextView locationText;
     public Button mostrarHospitalesButton;
     public double longitud;
     public double latitud;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shake);
+        time time = new time();
+        time.execute();
+
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        token_refresh = extras.getString("token_refresh");
 
         locationText = findViewById(R.id.locationText);
         mostrarHospitalesButton = findViewById(R.id.hospitales);
@@ -132,5 +161,66 @@ public class ShakeActivity extends AppCompatActivity {
             }
         });
         alertDialog.show();
+    }
+
+    public void Thread() {
+        try {
+            Thread.sleep(1000);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void Ejecutar(){
+        time time = new time();
+        time.execute();
+    }
+    public class time extends AsyncTask<Void,Integer,Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            for (int i=1;i<10; i++){
+                Thread();
+            }
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean b) {
+            Ejecutar();
+            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+            if (networkInfo != null && networkInfo.isConnected()) {
+                Retrofit retrofit = new Retrofit.Builder()
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .baseUrl("http://so-unlam.net.ar/api/")
+                        .build();
+
+                ServiceRefresh serviceRefresh = retrofit.create(ServiceRefresh.class);
+                Call<SoaRefreshResponse> call = serviceRefresh.actualizar(token_refresh);
+                call.enqueue(new Callback<SoaRefreshResponse>() {
+                    @Override
+                    public void onResponse(Call<SoaRefreshResponse> call, Response<SoaRefreshResponse> response) {
+                        if (response.isSuccessful()) {
+                            token = response.body().getToken();
+                            token_refresh=response.body().getToken_refresh();
+                            Log.e(TAG, "TOKEN ACTUALIZADO");
+
+                        } else {
+                            Log.e(TAG, "TOKEN NO ACTUALIZADO");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SoaRefreshResponse> call, Throwable t) {
+
+                    }
+                });
+
+            } else {
+                Toast.makeText(ShakeActivity.this, "No hay conexión", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

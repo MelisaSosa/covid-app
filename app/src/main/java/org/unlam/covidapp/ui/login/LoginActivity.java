@@ -90,7 +90,6 @@ public class LoginActivity extends AppCompatActivity {
                                     } else {
                                         Log.e(TAG, "EVENTO NO REGISTRADO");
                                     }
-                                    Log.e(TAG, "Mensaje finalizado");
                                 }
 
                                 @Override
@@ -102,14 +101,14 @@ public class LoginActivity extends AppCompatActivity {
 
                             Toast.makeText(LoginActivity.this, "Sesión iniciada correctamente", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(LoginActivity.this, ShakeActivity.class);
+                            intent.putExtra("token_refresh",tokenRefresh);
                             startActivity(intent);
-                            Log.e(TAG, "TODO OK");
+                            Log.e(TAG, "SESION INICIADA");
                         } else {
                             Toast.makeText(LoginActivity.this, "Los datos ingresados no son correctos", Toast.LENGTH_SHORT).show();
-                            Log.e(TAG, "TODO MAL");
+                            Log.e(TAG, "SESION NO INICIADA");
 
                         }
-                        Log.e(TAG, "Mensaje finalizado");
                     }
 
                     @Override

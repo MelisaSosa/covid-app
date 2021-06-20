@@ -23,13 +23,14 @@
         android:layout_width="400dp"
         android:layout_height="100dp"
         android:layout_marginTop="20dp"
-        android:layout_below="@+id/editText"
+        android:layout_below="@+id/hospitales"
          android:textColor="#ffffff"/>
 
     <Button
         android:id="@+id/hospitales"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/editText"
         android:text="@string/mostrar_hospitales"
         android:textColor="#ffffff"
         android:visibility="invisible" />

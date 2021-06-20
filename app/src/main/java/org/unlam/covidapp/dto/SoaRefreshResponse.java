@@ -2,20 +2,18 @@ package org.unlam.covidapp.dto;
 
 import com.google.gson.annotations.SerializedName;
 
-public class SoaRegisterResponse {
+public class SoaRefreshResponse {
     @SerializedName("success")
-    private Boolean successs;
+    private Boolean success;
     @SerializedName("token")
     private String token;
     @SerializedName("token_refresh")
     private String token_refresh;
 
-    public Boolean getSuccesss() {
-        return successs;
-    }
+    public boolean getSuccess(){return success;}
 
     public void setSuccesss(Boolean successs) {
-        this.successs = successs;
+        this.success = successs;
     }
 
     public String getToken() {
@@ -33,4 +31,5 @@ public class SoaRegisterResponse {
     public void setToken_refresh(String token_refresh) {
         this.token_refresh = token_refresh;
     }
+
 }
