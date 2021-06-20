@@ -3,16 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
+    android:background="@drawable/background_01"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_01"
+
     tools:context=".ui.login.LoginActivity">
 
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
@@ -69,27 +70,5 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:text="Registrarse" />
-
-    <TextView
-        android:id="@+id/TxtUsuario"
-        android:background="#11000000"
-        android:textColor="#ffffff"
-        android:layout_width="300dp"
-        android:layout_height="36dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/btnRegistrarse"
-        android:layout_marginTop="10dp"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/TxtPass"
-        android:background="#11000000"
-        android:textColor="#ffffff"
-        android:layout_width="300dp"
-        android:layout_height="36dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/TxtUsuario"
-        android:layout_marginTop="10dp"
-        android:text="TextView" />
 
 </RelativeLayout>

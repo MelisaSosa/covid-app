@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -51,7 +52,7 @@ public class RegistroActivity extends AppCompatActivity {
         Button button = findViewById(R.id.send_request);
         button.setOnClickListener( v -> {
             SoaRegisterRequest request = new SoaRegisterRequest();
-            request.setEnv("PROD");
+            request.setEnv("TEST");
             try {
 
                 request.setName(editName.getText().toString());
@@ -85,10 +86,10 @@ public class RegistroActivity extends AppCompatActivity {
                             Intent intent = new Intent(RegistroActivity.this, LoginActivity.class);
                             startActivity(intent);
                             Toast.makeText(RegistroActivity.this, "Te has registrado correctamente", Toast.LENGTH_SHORT).show();
-                            Log.e(TAG, "REGISTRADO");
+                            Log.e(TAG, "TODO OK");
 
                         } else {
-                            Log.e(TAG, "NO REGISTRADO");
+                            Log.e(TAG, "TODO MAL");
                             Toast.makeText(RegistroActivity.this, "Ups! Revisa los datos nuevamente", Toast.LENGTH_SHORT).show();
                         }
                     }

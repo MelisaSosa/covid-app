@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.unlam.covidapp.R;
@@ -35,8 +33,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText editEmail;
     private EditText editPass;
-    private TextView TxtUsuario;
-    private TextView TxtPass;
     private String token;
     private String tokenRefresh;
 
@@ -46,20 +42,15 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         editEmail = findViewById(R.id.input_email);
         editPass = findViewById(R.id.input_password);
-        TxtUsuario = findViewById(R.id.TxtUsuario);
-        TxtPass = findViewById(R.id.TxtPass);
-
-        cargarPreferencias();
 
         Button button = findViewById(R.id.btnIniciarSesion);
         button.setOnClickListener( v -> {
-            guardarPreferencias();
             SoaRegisterRequest request = new SoaRegisterRequest();
             request.setEmail(editEmail.getText().toString());
             request.setPassword(editPass.getText().toString());
 
             SoaEventRequest requestEvent = new SoaEventRequest();
-            requestEvent.setEnv("PROD");
+            requestEvent.setEnv("TEST");
             requestEvent.setDescription("Se ha iniciado sesión en la aplicación");
             requestEvent.setTypeEvents("Login");
 
@@ -80,6 +71,11 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(Call<SoaRegisterResponse> call, Response<SoaRegisterResponse> response) {
 
                         if (response.isSuccessful()) {
+                            //PANTALLA DE APLICACION
+                            // TextView textToken = findViewById(R.id.text_token);
+                            // TextView textTokenRefresh = findViewById(R.id.text_token_refresh);
+                            //Log.e(TAG, "LoginActivity Correcto");
+
                             token = response.body().getToken();
                             tokenRefresh=response.body().getToken_refresh();
                             ServiceEvent serviceEvent = retrofit.create(ServiceEvent.class);
@@ -101,6 +97,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                 }
                             });
+
 
                             Toast.makeText(LoginActivity.this, "Sesión iniciada correctamente", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(LoginActivity.this, ShakeActivity.class);
@@ -133,28 +130,5 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
     });
-    }
-    private void cargarPreferencias(){
-        SharedPreferences preferences=getSharedPreferences("Credenciales",Context.MODE_PRIVATE);
-        String user = preferences.getString("user","No existe la información");
-        String pass = preferences.getString("pass","No existe la información");
-        TxtUsuario.setText(user);
-        TxtPass.setText(pass);
-    }
-
-
-    private void guardarPreferencias(){
-        SharedPreferences preferences=getSharedPreferences("Credenciales",Context.MODE_PRIVATE);
-        String usuario = editEmail.getText().toString();
-        String pass = editPass.getText().toString();
-
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("user",usuario);
-        editor.putString("pass",pass);
-
-        TxtUsuario.setText(usuario);
-        TxtPass.setText(pass);
-
-        editor.commit();
     }
 }
