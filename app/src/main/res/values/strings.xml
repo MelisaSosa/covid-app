@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Covid App</string>
+    <string name="app_name">Emergencias Covid</string>
     <string name="title_activity_login">Sign in</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
