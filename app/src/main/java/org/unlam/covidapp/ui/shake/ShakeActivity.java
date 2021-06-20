@@ -20,11 +20,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
 import org.unlam.covidapp.R;
 import org.unlam.covidapp.Services.ServiceRefresh;
+import org.unlam.covidapp.dto.SoaRefreshRequest;
 import org.unlam.covidapp.dto.SoaRefreshResponse;
 import org.unlam.covidapp.ui.hospitales.HospitalesActivity;
 
@@ -158,6 +161,7 @@ public class ShakeActivity extends AppCompatActivity {
         try {
 
             Thread.sleep(60000);
+
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -171,7 +175,7 @@ public class ShakeActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-            for (int i=1;i<10; i++){
+            for (int i=1;i<=7; i++){
                 Thread();
             }
             return true;
@@ -188,6 +192,8 @@ public class ShakeActivity extends AppCompatActivity {
                         .addConverterFactory(GsonConverterFactory.create())
                         .baseUrl("http://so-unlam.net.ar/api/")
                         .build();
+
+                SoaRefreshRequest request = new SoaRefreshRequest();
 
                 ServiceRefresh serviceRefresh = retrofit.create(ServiceRefresh.class);
                 Call<SoaRefreshResponse> call = serviceRefresh.actualizar(token_refresh);

@@ -10,7 +10,7 @@ public class SoaRefreshResponse {
     @SerializedName("token_refresh")
     private String token_refresh;
 
-    public boolean getSuccess(){return success;}
+    public boolean isSuccess(){return success;}
 
     public void setSuccesss(Boolean successs) {
         this.success = successs;
