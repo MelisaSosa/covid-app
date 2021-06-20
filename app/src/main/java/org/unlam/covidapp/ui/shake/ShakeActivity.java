@@ -26,16 +26,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import org.unlam.covidapp.R;
-import org.unlam.covidapp.Services.ServiceEvent;
-import org.unlam.covidapp.Services.ServiceLogin;
 import org.unlam.covidapp.Services.ServiceRefresh;
-import org.unlam.covidapp.dto.SoaEventRequest;
-import org.unlam.covidapp.dto.SoaEventResponse;
 import org.unlam.covidapp.dto.SoaRefreshResponse;
-import org.unlam.covidapp.dto.SoaRegisterRequest;
-import org.unlam.covidapp.dto.SoaRegisterResponse;
 import org.unlam.covidapp.ui.hospitales.HospitalesActivity;
-import org.unlam.covidapp.ui.login.LoginActivity;
 
 import java.util.ArrayList;
 
@@ -165,7 +158,7 @@ public class ShakeActivity extends AppCompatActivity {
 
     public void Thread() {
         try {
-            Thread.sleep(1000);
+            Thread.sleep(3000);
         }
         catch (Exception e) {
             e.printStackTrace();
