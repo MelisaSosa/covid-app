@@ -58,12 +58,6 @@ public class LoginActivity extends AppCompatActivity {
             request.setEmail(editEmail.getText().toString());
             request.setPassword(editPass.getText().toString());
 
-            SoaEventRequest requestEvent = new SoaEventRequest();
-            requestEvent.setEnv("PROD");
-            requestEvent.setDescription("Se ha iniciado sesión en la aplicación");
-            requestEvent.setTypeEvents("Login");
-
-
             ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
@@ -82,25 +76,6 @@ public class LoginActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             token = response.body().getToken();
                             tokenRefresh=response.body().getToken_refresh();
-                            ServiceEvent serviceEvent = retrofit.create(ServiceEvent.class);
-
-                            Call<SoaEventResponse> call2 = serviceEvent.registrarEvento(token,requestEvent);
-                            call2.enqueue(new Callback<SoaEventResponse>() {
-                                @Override
-                                public void onResponse(Call<SoaEventResponse> call, Response<SoaEventResponse> response) {
-                                    if (response.isSuccessful()) {
-                                        Log.e(TAG, "EVENTO REGISTRADO");
-
-                                    } else {
-                                        Log.e(TAG, "EVENTO NO REGISTRADO");
-                                    }
-                                }
-
-                                @Override
-                                public void onFailure(Call<SoaEventResponse> call, Throwable t) {
-
-                                }
-                            });
 
                             Toast.makeText(LoginActivity.this, "Sesión iniciada correctamente", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(LoginActivity.this, ShakeActivity.class);

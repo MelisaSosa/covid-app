@@ -26,7 +26,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import org.unlam.covidapp.R;
+import org.unlam.covidapp.Services.ServiceEvent;
 import org.unlam.covidapp.Services.ServiceRefresh;
+import org.unlam.covidapp.dto.SoaEventRequest;
+import org.unlam.covidapp.dto.SoaEventResponse;
 import org.unlam.covidapp.dto.SoaRefreshRequest;
 import org.unlam.covidapp.dto.SoaRefreshResponse;
 import org.unlam.covidapp.ui.hospitales.HospitalesActivity;
@@ -90,6 +93,36 @@ public class ShakeActivity extends AppCompatActivity {
             @Override
             public void onShake(int count) {
                 handleShakeEvent(count);
+            }
+        });
+
+        SoaEventRequest requestEvent = new SoaEventRequest();
+        requestEvent.setEnv("PROD");
+        requestEvent.setDescription("Se ha iniciado sesión en la aplicación");
+        requestEvent.setTypeEvents("Login");
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl("http://so-unlam.net.ar/api/")
+                .build();
+
+        ServiceEvent serviceEvent = retrofit.create(ServiceEvent.class);
+
+        Call<SoaEventResponse> call2 = serviceEvent.registrarEvento("Bearer" + token,requestEvent);
+        call2.enqueue(new Callback<SoaEventResponse>() {
+            @Override
+            public void onResponse(Call<SoaEventResponse> call, Response<SoaEventResponse> response) {
+                if (response.isSuccessful()) {
+                    Log.e(TAG, "EVENTO REGISTRADO");
+
+                } else {
+                    Log.e(TAG, "EVENTO NO REGISTRADO");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SoaEventResponse> call, Throwable t) {
+                Log.e(TAG, "EVENTO NO REGISTRADO");
             }
         });
     }
